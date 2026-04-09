@@ -24,56 +24,48 @@ const SitterProfile = () => {
     });
   };
 
- const handleBooking = async () => {
+  const handleBooking = async () => {
+    const loggedIn = localStorage.getItem("loggedIn");
 
-  const loggedIn = localStorage.getItem("loggedIn");
+    if (!loggedIn) {
+      alert("Please login to book sitter");
+      navigate("/login");
+      return;
+    }
 
-  if (!loggedIn) {
-    alert("Please login to book sitter");
-    navigate("/login");
-    return;
-  }
+    if (!booking.date || !booking.address || !booking.petType) {
+      alert("Please fill all fields");
+      return;
+    }
 
-  if (
-    !booking.date ||
-    !booking.address ||
-    !booking.petType
-  ) {
-    alert("Please fill all fields");
-    return;
-  }
+    const userName = localStorage.getItem("userName");
 
-  const userName = localStorage.getItem("userName");
+    await fetch(`${API}/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...booking,
+        name: userName,
+        sitterId: sitter._id,
+      }),
+    });
 
-  await fetch(`${API}/bookings`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      ...booking,
+    alert("Booking successful!");
+
+    setBooking({
       name: userName,
-      sitterId: sitter._id,
-    }),
-  });
-
-  alert("Booking successful!");
-
-  setBooking({
-    name: userName,
-    date: "",
-    address: "",
-    petType: "",
-  });
-};
+      date: "",
+      address: "",
+      petType: "",
+    });
+  };
 
   useEffect(() => {
     const fetchSitter = async () => {
       try {
-        const res = await fetch(
-          `${API}/sitters/${id}`
-        );
-
+        const res = await fetch(`${API}/sitters/${id}`);
         const data = await res.json();
         setSitter(data);
       } catch (error) {
@@ -87,20 +79,19 @@ const SitterProfile = () => {
   }, [id]);
 
   if (loading) {
-    return <div className="p-20">Loading sitter...</div>;
+    return <div className="p-6 md:p-20">Loading sitter...</div>;
   }
 
   if (!sitter) {
-    return <div className="p-20">Sitter not found</div>;
+    return <div className="p-6 md:p-20">Sitter not found</div>;
   }
 
   return (
     <div className="bg-[#eef3ef] min-h-screen">
-
       <Navbar />
 
       {/* HERO */}
-      <div className="grid md:grid-cols-2 gap-12 px-6 md:px-16 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 px-4 md:px-16 mt-8 md:mt-10">
 
         <div className="relative">
           <img
@@ -108,13 +99,13 @@ const SitterProfile = () => {
             className="rounded-3xl shadow w-full"
           />
 
-          <div className="absolute bottom-[-20px] left-10 bg-[#2e6b56] text-white px-6 py-3 rounded-xl">
+          <div className="md:absolute bottom-[-20px] left-6 md:left-10 mt-4 md:mt-0 bg-[#2e6b56] text-white px-6 py-3 rounded-xl">
             Elite Caretaker
           </div>
         </div>
 
         <div>
-          <h1 className="text-4xl font-semibold">
+          <h1 className="text-2xl md:text-4xl font-semibold">
             {sitter.name}
           </h1>
 
@@ -122,7 +113,7 @@ const SitterProfile = () => {
             {sitter.experience || "Experienced Pet Sitter"}
           </p>
 
-          <div className="flex gap-10 mt-6 text-sm">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-10 mt-6 text-sm">
             <div>
               <p className="text-gray-400">Location</p>
               <p className="font-semibold">{sitter.city}</p>
@@ -141,15 +132,14 @@ const SitterProfile = () => {
             </div>
           </div>
         </div>
-
       </div>
 
       {/* CONTENT */}
-      <div className="grid md:grid-cols-[1fr_380px] gap-10 px-6 md:px-16 mt-16">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_380px] gap-8 md:gap-10 px-4 md:px-16 mt-10 md:mt-16 pb-10">
 
         {/* LEFT */}
         <div>
-          <h2 className="text-2xl font-semibold mb-4">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">
             About Me
           </h2>
 
@@ -186,7 +176,7 @@ const SitterProfile = () => {
           <div className="bg-white rounded-3xl overflow-hidden shadow">
 
             <div className="bg-[#2e6b56] text-white p-6">
-              <h3 className="text-xl font-semibold">
+              <h3 className="text-lg md:text-xl font-semibold">
                 Services & Rates
               </h3>
             </div>
@@ -218,7 +208,7 @@ const SitterProfile = () => {
 
           {/* BOOKING */}
           <div className="bg-white rounded-3xl p-6 shadow mt-6">
-            <h3 className="text-xl font-semibold mb-4">
+            <h3 className="text-lg md:text-xl font-semibold mb-4">
               Book this sitter
             </h3>
 

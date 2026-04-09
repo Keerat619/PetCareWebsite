@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../api.js";
 
 const BecomeSitter = () => {
   const navigate = useNavigate();
@@ -35,45 +36,33 @@ const BecomeSitter = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await fetch(
-        "https://petcarewebsite.onrender.com/sitters",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        }
-      );
+    await fetch(`${API}/sitters`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
 
-      const data = await res.json();
-      console.log(data);
-
-      alert("Sitter added successfully");
-      navigate("/");
-
-    } catch (err) {
-      console.log(err);
-      alert("Error adding sitter");
-    }
+    alert("Sitter added successfully");
+    navigate("/");
   };
 
   return (
     <div className="bg-[#eef3ef] min-h-screen">
 
       {/* HEADER */}
-      <header className="flex justify-between items-center px-16 py-6">
+      <header className="flex justify-between items-center px-4 md:px-16 py-6">
         <h1 className="text-[#2e6b56] font-semibold">
           The Editorial Caretaker
         </h1>
       </header>
 
-      <div className="grid grid-cols-2 gap-16 px-16 py-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 px-4 md:px-16 py-10">
 
         {/* LEFT */}
         <div>
-          <h1 className="text-[56px] font-bold text-[#2e6b56] leading-tight">
+          <h1 className="text-3xl md:text-[56px] font-bold text-[#2e6b56] leading-tight">
             Your journey
             <br />
             as a caretaker
@@ -91,14 +80,14 @@ const BecomeSitter = () => {
         {/* RIGHT FORM */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white rounded-3xl p-10 shadow-sm"
+          className="bg-white rounded-3xl p-6 md:p-10 shadow-sm"
         >
 
-          <h2 className="text-xl font-semibold mb-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-6">
             Basic Information
           </h2>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <input
               name="name"
               placeholder="Full Name"
@@ -114,7 +103,7 @@ const BecomeSitter = () => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <input
               name="price"
               placeholder="Price"
@@ -132,7 +121,7 @@ const BecomeSitter = () => {
 
           <input
             name="experience"
-            placeholder="Experience"
+            placeholder="Experience (e.g. 3 years)"
             onChange={handleChange}
             className="bg-[#eef3ef] p-3 rounded-lg w-full mb-6"
           />
@@ -144,6 +133,7 @@ const BecomeSitter = () => {
             className="bg-[#eef3ef] p-3 rounded-lg w-full mb-6"
           />
 
+          {/* SERVICES */}
           <h3 className="font-semibold mb-3">
             Services Offered
           </h3>

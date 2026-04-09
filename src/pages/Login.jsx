@@ -1,54 +1,73 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [email,setEmail] = useState("");
-  const [password,setPassword] = useState("");
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
-  const login = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    if(
-      user?.email === email &&
-      user?.password === password
-    ){
-      localStorage.setItem("loggedIn","true");
-      navigate("/");
-    } else {
-      alert("Invalid credentials");
+  const handleLogin = () => {
+    if (
+      form.email === "admin@gmail.com" &&
+      form.password === "admin123"
+    ) {
+      localStorage.setItem("admin", "true");
+      navigate("/admin");
+      return;
     }
+
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("userName", form.email);
+    navigate("/");
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#eef3ef]">
+    <div className="bg-[#eef3ef] min-h-screen">
 
-      <div className="bg-white p-10 rounded-3xl shadow w-[400px]">
+      <Navbar />
 
-        <h2 className="text-2xl font-semibold mb-6">
-          Login
-        </h2>
+      <div className="flex items-center justify-center px-4 py-10">
 
-        <input
-          placeholder="Email"
-          onChange={(e)=>setEmail(e.target.value)}
-          className="w-full p-3 bg-[#eef3ef] rounded-lg mb-4"
-        />
+        <div className="bg-white p-6 md:p-10 rounded-3xl shadow w-full max-w-md">
 
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e)=>setPassword(e.target.value)}
-          className="w-full p-3 bg-[#eef3ef] rounded-lg mb-6"
-        />
+          <h1 className="text-2xl font-semibold mb-6">
+            Login
+          </h1>
 
-        <button
-          onClick={login}
-          className="w-full bg-[#2e6b56] text-white py-3 rounded-full"
-        >
-          Login
-        </button>
+          <input
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            className="w-full p-3 bg-[#eef3ef] rounded-lg mb-4"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange}
+            className="w-full p-3 bg-[#eef3ef] rounded-lg mb-6"
+          />
+
+          <button
+            onClick={handleLogin}
+            className="w-full bg-[#2e6b56] text-white py-3 rounded-full"
+          >
+            Login
+          </button>
+
+        </div>
 
       </div>
 
