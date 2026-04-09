@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import API from "../api.js";
 
 const BecomeSitter = () => {
   const navigate = useNavigate();
@@ -33,17 +32,31 @@ const BecomeSitter = () => {
     }));
   };
 
-  const handleSubmit = async () => {
-    await fetch("https://petcarewebsite.onrender.com/sitters", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    alert("Sitter added successfully");
-    navigate("/");
+    try {
+      const res = await fetch(
+        "https://petcarewebsite.onrender.com/sitters",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
+
+      const data = await res.json();
+      console.log(data);
+
+      alert("Sitter added successfully");
+      navigate("/");
+
+    } catch (err) {
+      console.log(err);
+      alert("Error adding sitter");
+    }
   };
 
   return (
@@ -76,7 +89,10 @@ const BecomeSitter = () => {
         </div>
 
         {/* RIGHT FORM */}
-        <div className="bg-white rounded-3xl p-10 shadow-sm">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-3xl p-10 shadow-sm"
+        >
 
           <h2 className="text-xl font-semibold mb-6">
             Basic Information
@@ -116,7 +132,7 @@ const BecomeSitter = () => {
 
           <input
             name="experience"
-            placeholder="Experience (e.g. 3 years)"
+            placeholder="Experience"
             onChange={handleChange}
             className="bg-[#eef3ef] p-3 rounded-lg w-full mb-6"
           />
@@ -128,7 +144,6 @@ const BecomeSitter = () => {
             className="bg-[#eef3ef] p-3 rounded-lg w-full mb-6"
           />
 
-          {/* SERVICES */}
           <h3 className="font-semibold mb-3">
             Services Offered
           </h3>
@@ -136,60 +151,40 @@ const BecomeSitter = () => {
           <div className="space-y-2 mb-6">
 
             <label className="flex gap-2">
-              <input
-                type="checkbox"
-                value="Dog Walking"
-                onChange={handleService}
-              />
+              <input type="checkbox" value="Dog Walking" onChange={handleService}/>
               Dog Walking
             </label>
 
             <label className="flex gap-2">
-              <input
-                type="checkbox"
-                value="Dog Sitting"
-                onChange={handleService}
-              />
+              <input type="checkbox" value="Dog Sitting" onChange={handleService}/>
               Dog Sitting
             </label>
 
             <label className="flex gap-2">
-              <input
-                type="checkbox"
-                value="Cat Sitting"
-                onChange={handleService}
-              />
+              <input type="checkbox" value="Cat Sitting" onChange={handleService}/>
               Cat Sitting
             </label>
 
             <label className="flex gap-2">
-              <input
-                type="checkbox"
-                value="Pet Boarding"
-                onChange={handleService}
-              />
+              <input type="checkbox" value="Pet Boarding" onChange={handleService}/>
               Pet Boarding
             </label>
 
             <label className="flex gap-2">
-              <input
-                type="checkbox"
-                value="Drop-in Visits"
-                onChange={handleService}
-              />
+              <input type="checkbox" value="Drop-in Visits" onChange={handleService}/>
               Drop-in Visits
             </label>
 
           </div>
 
           <button
-            onClick={handleSubmit}
+            type="submit"
             className="w-full bg-[#2e6b56] text-white py-3 rounded-full"
           >
             Become a Sitter
           </button>
 
-        </div>
+        </form>
 
       </div>
 
