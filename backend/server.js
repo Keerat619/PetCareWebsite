@@ -1,58 +1,30 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+
 import Sitter from "./models/Sitter.js";
 import Booking from "./models/booking.js";
 
+dotenv.config();
 
 const app = express();
 
-/* MIDDLEWARE (must be before routes) */
+/* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
 
-/* DB */
-mongoose.connect("mongodb://127.0.0.1:27017/petsitters");
-app.post("/bookings", async (req, res) => {
-  const booking = new Booking(req.body);
-  await booking.save();
-  res.json(booking);
-});
-app.delete("/sitters/:id", async (req,res)=>{
-  await Sitter.findByIdAndDelete(req.params.id);
-  res.send("deleted");
-});
+/* DATABASE */
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
 /* TEST */
 app.get("/", (req, res) => {
   res.send("API Working");
 });
-app.get("/bookings", async (req, res) => {
-  const bookings = await Booking.find();
 
-  const sitters = await Sitter.find();
-
-  const result = bookings.map((b) => {
-    const sitter = sitters.find(
-      (s) => s._id.toString() === b.sitterId
-    );
-app.put("/bookings/:id", async (req, res) => {
-  const booking = await Booking.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true }
-  );
-
-  res.json(booking);
-});
-    return {
-      ...b._doc,
-      sitterName: sitter?.name,
-      sitterCity: sitter?.city,
-    };
-  });
-
-  res.json(result);
-});
 /* ADD SITTER */
 app.post("/sitters", async (req, res) => {
   try {
@@ -64,7 +36,7 @@ app.post("/sitters", async (req, res) => {
   }
 });
 
-/* GET ALL SITTERS (city filter) */
+/* GET ALL SITTERS */
 app.get("/sitters", async (req, res) => {
   try {
     const { city } = req.query;
@@ -94,6 +66,52 @@ app.get("/sitters/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () =>
-  console.log("Server running on port 5000")
-);
+/* DELETE SITTER */
+app.delete("/sitters/:id", async (req, res) => {
+  await Sitter.findByIdAndDelete(req.params.id);
+  res.send("deleted");
+});
+
+/* CREATE BOOKING */
+app.post("/bookings", async (req, res) => {
+  const booking = new Booking(req.body);
+  await booking.save();
+  res.json(booking);
+});
+
+/* GET BOOKINGS */
+app.get("/bookings", async (req, res) => {
+  const bookings = await Booking.find();
+  const sitters = await Sitter.find();
+
+  const result = bookings.map((b) => {
+    const sitter = sitters.find(
+      (s) => s._id.toString() === b.sitterId
+    );
+
+    return {
+      ...b._doc,
+      sitterName: sitter?.name,
+      sitterCity: sitter?.city,
+    };
+  });
+
+  res.json(result);
+});
+
+/* UPDATE BOOKING */
+app.put("/bookings/:id", async (req, res) => {
+  const booking = await Booking.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+
+  res.json(booking);
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
+});
