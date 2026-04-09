@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api.js";
-
+import Footer from "../components/Footer";
 const BecomeSitter = () => {
   const navigate = useNavigate();
 
@@ -177,7 +177,7 @@ const BecomeSitter = () => {
         </form>
 
       </div>
-
+<Footer />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
-
+import Footer from "../components/Footer";
 const Home = () => {
   const navigate = useNavigate();
   const [city, setCity] = useState("");
@@ -134,6 +134,8 @@ const Home = () => {
         </div>
 
       </div>
+
+  <Footer />
 
     </div>
   );

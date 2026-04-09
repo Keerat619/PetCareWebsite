@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import API from "../api.js";
-
+import Footer from "../components/Footer";
 const SitterProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -255,7 +255,7 @@ const SitterProfile = () => {
         </div>
 
       </div>
-
+<Footer />
     </div>
   );
 };

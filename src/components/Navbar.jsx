@@ -5,6 +5,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  const isAdmin = localStorage.getItem("admin");
+
   return (
     <header className="bg-[#eef3ef] border-b">
 
@@ -18,8 +20,8 @@ const Navbar = () => {
           The Editorial Caretaker
         </h1>
 
-        {/* DESKTOP MENU */}
-        <div className="hidden md:flex gap-10">
+        {/* DESKTOP */}
+        <div className="hidden md:flex gap-8 items-center">
 
           <button onClick={() => navigate("/find-sitters")}>
             Find Sitters
@@ -29,13 +31,22 @@ const Navbar = () => {
             Become Sitter
           </button>
 
-          <button onClick={() => navigate("/admin")}>
-            Admin
+          {isAdmin && (
+            <button onClick={() => navigate("/admin")}>
+              Admin
+            </button>
+          )}
+
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[#2e6b56] text-white px-4 py-2 rounded-full"
+          >
+            Login
           </button>
 
         </div>
 
-        {/* MOBILE MENU BUTTON */}
+        {/* MOBILE BUTTON */}
         <button
           className="md:hidden text-2xl"
           onClick={() => setOpen(!open)}
@@ -47,7 +58,7 @@ const Navbar = () => {
 
       {/* MOBILE MENU */}
       {open && (
-        <div className="md:hidden px-4 pb-4 flex flex-col gap-3 bg-[#eef3ef]">
+        <div className="md:hidden px-4 pb-4 flex flex-col gap-3">
 
           <button onClick={() => navigate("/find-sitters")}>
             Find Sitters
@@ -57,8 +68,17 @@ const Navbar = () => {
             Become Sitter
           </button>
 
-          <button onClick={() => navigate("/admin")}>
-            Admin
+          {isAdmin && (
+            <button onClick={() => navigate("/admin")}>
+              Admin
+            </button>
+          )}
+
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[#2e6b56] text-white py-2 rounded-full"
+          >
+            Login
           </button>
 
         </div>

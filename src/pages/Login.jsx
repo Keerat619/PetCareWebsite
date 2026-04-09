@@ -18,6 +18,8 @@ const Login = () => {
   };
 
   const handleLogin = () => {
+
+    // ADMIN LOGIN (hidden)
     if (
       form.email === "admin@gmail.com" &&
       form.password === "admin123"
@@ -27,8 +29,10 @@ const Login = () => {
       return;
     }
 
+    // USER LOGIN
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("userName", form.email);
+
     navigate("/");
   };
 
@@ -37,12 +41,12 @@ const Login = () => {
 
       <Navbar />
 
-      <div className="flex items-center justify-center px-4 py-10">
+      <div className="flex justify-center items-center py-16 px-4">
 
-        <div className="bg-white p-6 md:p-10 rounded-3xl shadow w-full max-w-md">
+        <div className="bg-white p-8 rounded-3xl shadow w-full max-w-md">
 
           <h1 className="text-2xl font-semibold mb-6">
-            Login
+            Sign in
           </h1>
 
           <input
@@ -64,7 +68,7 @@ const Login = () => {
             onClick={handleLogin}
             className="w-full bg-[#2e6b56] text-white py-3 rounded-full"
           >
-            Login
+            Sign in
           </button>
 
         </div>
