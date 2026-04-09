@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import API from "../api.js";
 
 const AdminAddSitter = () => {
 
@@ -17,7 +18,7 @@ const AdminAddSitter = () => {
   };
 
   const submit = async () => {
-    await fetch("https://petcarewebsite.onrender.com/sitters", {
+    await fetch(`${API}/sitters`, {
       method:"POST",
       headers:{
         "Content-Type":"application/json"

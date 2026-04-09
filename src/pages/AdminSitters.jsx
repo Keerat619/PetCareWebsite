@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import API from "../api.js";
+
 const AdminSitters = () => {
   const [sitters, setSitters] = useState([]);
 
   useEffect(() => {
-    fetch("https://petcarewebsite.onrender.com/sitters")
+    fetch(`${API}/sitters`)
       .then(res => res.json())
       .then(data => setSitters(data));
   }, []);
 
   const deleteSitter = async (id) => {
-    await fetch(`https://petcarewebsite.onrender.com/sitters/${id}`, {
+    await fetch(`${API}/sitters/${id}`, {
       method: "DELETE"
     });
 

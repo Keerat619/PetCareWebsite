@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import API from "../api.js";
 
 const BecomeSitter = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const BecomeSitter = () => {
   };
 
   const handleSubmit = async () => {
-    await fetch("https://petcarewebsite.onrender.com/sitters", {
+    await fetch(`${API}/sitters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

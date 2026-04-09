@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
+import API from "../api.js";
+
 const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = async () => {
-    const res = await fetch("https://petcarewebsite.onrender.com/bookings");
+    const res = await fetch(`${API}/bookings`);
     const data = await res.json();
     setBookings(data);
   };
@@ -14,7 +16,7 @@ const AdminBookings = () => {
   }, []);
 
   const markCompleted = async (id) => {
-    await fetch(`https://petcarewebsite.onrender.com/bookings/${id}`, {
+    await fetch(`${API}/bookings/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

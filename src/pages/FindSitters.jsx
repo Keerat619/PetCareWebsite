@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import API from "../api.js";
 
 const FindSitters = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const FindSitters = () => {
     setLoading(true);
 
     const res = await fetch(
-      `https://petcarewebsite.onrender.com/sitters?city=${city}`
+      `${API}/sitters?city=${city}`
     );
 
     const data = await res.json();

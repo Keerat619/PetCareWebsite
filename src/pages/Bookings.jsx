@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import API from "../api.js";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const fetchBookings = async () => {
-      const res = await fetch("https://petcarewebsite.onrender.com/bookings");
+      const res = await fetch(`${API}/bookings`);
       const data = await res.json();
       setBookings(data);
     };

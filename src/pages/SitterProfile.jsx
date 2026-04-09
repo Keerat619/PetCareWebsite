@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import API from "../api.js";
+
 const SitterProfile = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ const SitterProfile = () => {
 
   const userName = localStorage.getItem("userName");
 
-  await fetch("https://petcarewebsite.onrender.com/bookings", {
+  await fetch(`${API}/bookings`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -69,7 +71,7 @@ const SitterProfile = () => {
     const fetchSitter = async () => {
       try {
         const res = await fetch(
-          `https://petcarewebsite.onrender.com/sitters/${id}`
+          `${API}/sitters/${id}`
         );
 
         const data = await res.json();
