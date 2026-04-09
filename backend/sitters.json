@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Rahul Sharma",
+    "city": "Bhopal",
+    "price": 299,
+    "phone": "919876543210"
+  },
+  {
+    "name": "Ankit Verma",
+    "city": "Bhopal",
+    "price": 350,
+    "phone": "919812345678"
+  },
+  {
+    "name": "Priya Singh",
+    "city": "Indore",
+    "price": 400,
+    "phone": "919899112233"
+  },
+  {
+    "name": "Neha Jain",
+    "city": "Indore",
+    "price": 320,
+    "phone": "919877665544"
+  },
+  {
+    "name": "Amit Patel",
+    "city": "Delhi",
+    "price": 500,
+    "phone": "919866554433"
+  },
+  {
+    "name": "Rohit Mehta",
+    "city": "Delhi",
+    "price": 450,
+    "phone": "919855443322"
+  },
+  {
+    "name": "Simran Kaur",
+    "city": "Chandigarh",
+    "price": 380,
+    "phone": "919844332211"
+  },
+  {
+    "name": "Karan Malhotra",
+    "city": "Chandigarh",
+    "price": 420,
+    "phone": "919833221100"
+  },
+  {
+    "name": "Pooja Gupta",
+    "city": "Mumbai",
+    "price": 550,
+    "phone": "919822110099"
+  },
+  {
+    "name": "Vikas Yadav",
+    "city": "Mumbai",
+    "price": 600,
+    "phone": "919811009988"
+  }
+]
