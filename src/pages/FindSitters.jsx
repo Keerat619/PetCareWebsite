@@ -1,147 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import API from "../api.js";
 
 const FindSitters = () => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const params = new URLSearchParams(location.search);
-  const initialCity = params.get("city") || "";
+  const city = searchParams.get("city") || "";
 
-  const [city, setCity] = useState(initialCity);
   const [sitters, setSitters] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchSitters();
+  }, [city]);
 
   const fetchSitters = async () => {
-    if (!city) return;
+    try {
+      setLoading(true);
 
-    setLoading(true);
+      const res = await fetch(
+        `https://petcarewebsite.onrender.com/sitters?city=${city}`
+      );
 
-    const res = await fetch(
-      `${API}/sitters?city=${city}`
-    );
+      const data = await res.json();
 
-    const data = await res.json();
-    setSitters(data);
+      // IMPORTANT FIX
+      if (Array.isArray(data)) {
+        setSitters(data);
+      } else {
+        setSitters([]);
+      }
+
+    } catch (err) {
+      console.log(err);
+      setSitters([]);
+    }
+
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (initialCity) {
-      fetchSitters();
-    }
-  }, []);
-
   return (
-    <div className="bg-[#f6faf6] min-h-screen">
-
+    <div className="bg-[#eef3ef] min-h-screen">
       <Navbar />
 
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 py-12">
+      <div className="px-16 py-10">
+        <h1 className="text-3xl font-semibold mb-6">
+          Available sitters in {city}
+        </h1>
 
-        {/* SEARCH HEADER */}
-        <div className="mb-10">
+        {loading && <p>Loading sitters...</p>}
 
-          <h1 className="text-3xl font-semibold">
-            Find Sitters
-          </h1>
-
-          <div className="flex mt-6 bg-white rounded-full border p-2 max-w-lg">
-
-            <input
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              placeholder="Search by city"
-              className="flex-1 px-6 py-3 outline-none rounded-full"
-            />
-
-            <button
-              onClick={fetchSitters}
-              className="bg-[#2e6b56] text-white px-6 py-2 rounded-full"
-            >
-              Search
-            </button>
-
-          </div>
-
-        </div>
-
-        {/* LOADING */}
-        {loading && (
-          <p className="text-gray-500">
-            Loading sitters...
-          </p>
+        {!loading && sitters.length === 0 && (
+          <p>No sitters found in this city</p>
         )}
 
-        {/* NO RESULTS */}
-        {!loading && sitters.length === 0 && city && (
-          <div className="bg-white p-10 rounded-2xl text-center shadow-sm">
-            <p className="text-gray-500">
-              No sitters found in {city}
-            </p>
-          </div>
-        )}
-
-        {/* SITTER GRID */}
-        <div className="grid md:grid-cols-3 gap-8">
-
+        <div className="grid grid-cols-3 gap-8 mt-8">
           {sitters.map((sitter) => (
             <div
               key={sitter._id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition overflow-hidden"
+              onClick={() => navigate(`/sitter/${sitter._id}`)}
+              className="bg-white p-5 rounded-2xl shadow cursor-pointer"
             >
+              <h2 className="text-xl font-semibold">
+                {sitter.name}
+              </h2>
 
-              <img
-                src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b"
-                className="w-full h-48 object-cover"
-              />
+              <p className="text-gray-500">
+                {sitter.city}
+              </p>
 
-              <div className="p-5">
+              <p className="mt-2 font-semibold">
+                ₹{sitter.price}
+              </p>
 
-                <h3 className="text-lg font-semibold">
-                  {sitter.name}
-                </h3>
-
-                <p className="text-gray-500 text-sm">
-                  {sitter.city}
-                </p>
-
-                <p className="mt-2 font-semibold text-[#2e6b56]">
-                  ₹{sitter.price}
-                </p>
-
-                <div className="flex gap-3 mt-4">
-
-                  <button
-                    onClick={() =>
-                      navigate(`/sitter/${sitter._id}`)
-                    }
-                    className="flex-1 border border-[#2e6b56] text-[#2e6b56] py-2 rounded-full"
-                  >
-                    View
-                  </button>
-
-                  <a
-                    href={`https://wa.me/${sitter.phone}`}
-                    className="flex-1 bg-[#25D366] text-white py-2 rounded-full text-center"
-                  >
-                    WhatsApp
-                  </a>
-
-                </div>
-
-              </div>
-
+              <button className="mt-4 bg-[#2e6b56] text-white px-4 py-2 rounded-full">
+                View Profile
+              </button>
             </div>
           ))}
-
         </div>
-
       </div>
-<Footer />
     </div>
   );
 };
