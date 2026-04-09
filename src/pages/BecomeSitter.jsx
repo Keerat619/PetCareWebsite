@@ -34,7 +34,7 @@ const BecomeSitter = () => {
   };
 
   const handleSubmit = async () => {
-    await fetch(`${API}/sitters`, {
+    await fetch("https://petcarewebsite.onrender.com/sitters", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
