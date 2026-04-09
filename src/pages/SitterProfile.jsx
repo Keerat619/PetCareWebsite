@@ -43,7 +43,7 @@ const SitterProfile = () => {
 
   const userName = localStorage.getItem("userName");
 
-  await fetch("http://localhost:5000/bookings", {
+  await fetch("https://petcarewebsite.onrender.com/bookings", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const SitterProfile = () => {
     const fetchSitter = async () => {
       try {
         const res = await fetch(
-          `http://localhost:5000/sitters/${id}`
+          `https://petcarewebsite.onrender.com/sitters/${id}`
         );
 
         const data = await res.json();

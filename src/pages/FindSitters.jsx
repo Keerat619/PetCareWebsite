@@ -20,7 +20,7 @@ const FindSitters = () => {
     setLoading(true);
 
     const res = await fetch(
-      `http://localhost:5000/sitters?city=${city}`
+      `https://petcarewebsite.onrender.com/sitters?city=${city}`
     );
 
     const data = await res.json();

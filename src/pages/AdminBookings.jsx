@@ -4,7 +4,7 @@ const AdminBookings = () => {
   const [bookings, setBookings] = useState([]);
 
   const fetchBookings = async () => {
-    const res = await fetch("http://localhost:5000/bookings");
+    const res = await fetch("https://petcarewebsite.onrender.com/bookings");
     const data = await res.json();
     setBookings(data);
   };
@@ -14,7 +14,7 @@ const AdminBookings = () => {
   }, []);
 
   const markCompleted = async (id) => {
-    await fetch(`http://localhost:5000/bookings/${id}`, {
+    await fetch(`https://petcarewebsite.onrender.com/bookings/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

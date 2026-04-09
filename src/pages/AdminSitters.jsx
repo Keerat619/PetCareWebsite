@@ -4,13 +4,13 @@ const AdminSitters = () => {
   const [sitters, setSitters] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/sitters")
+    fetch("https://petcarewebsite.onrender.com/sitters")
       .then(res => res.json())
       .then(data => setSitters(data));
   }, []);
 
   const deleteSitter = async (id) => {
-    await fetch(`http://localhost:5000/sitters/${id}`, {
+    await fetch(`https://petcarewebsite.onrender.com/sitters/${id}`, {
       method: "DELETE"
     });
 

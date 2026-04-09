@@ -17,7 +17,7 @@ const AdminAddSitter = () => {
   };
 
   const submit = async () => {
-    await fetch("http://localhost:5000/sitters", {
+    await fetch("https://petcarewebsite.onrender.com/sitters", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"

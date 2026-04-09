@@ -5,7 +5,7 @@ const Bookings = () => {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      const res = await fetch("http://localhost:5000/bookings");
+      const res = await fetch("https://petcarewebsite.onrender.com/bookings");
       const data = await res.json();
       setBookings(data);
     };
